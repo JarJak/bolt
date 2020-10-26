@@ -43,7 +43,6 @@ class QueryParameterParser
         $word = "[\p{L}\p{N}_]+";
 
         // @codingStandardsIgnoreStart
-        $this->addValueMatcher("(%$word|$word%|%$word%)",   ['value' => '$1', 'operator' => 'like']);
         $this->addValueMatcher("($word)",                   ['value' => '$1', 'operator' => 'eq']);
         $this->addValueMatcher("<($word)",                  ['value' => '$1', 'operator' => 'lt']);
         $this->addValueMatcher("<=($word)",                 ['value' => '$1', 'operator' => 'lte']);
@@ -53,6 +52,7 @@ class QueryParameterParser
         $this->addValueMatcher("!($word)",                  ['value' => '$1', 'operator' => 'neq']);
         $this->addValueMatcher('!\[([\p{L}\p{N} ,]+)\]',    ['value' => function ($val) { return explode(',', $val); }, 'operator' => 'notIn']);
         $this->addValueMatcher('\[([\p{L}\p{N} ,]+)\]',     ['value' => function ($val) { return explode(',', $val); }, 'operator' => 'in']);
+        $this->addValueMatcher("(%$word|$word%|%$word%)",   ['value' => '$1', 'operator' => 'like']);
         // @codingStandardsIgnoreEnd
 
         $this->addFilterHandler([$this, 'defaultFilterHandler']);
